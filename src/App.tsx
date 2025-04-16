@@ -1,5 +1,6 @@
-import  { useState, useEffect } from 'react';
-import { Search } from 'lucide-react';
+import { Search } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 interface Product {
   _id: number;
@@ -8,25 +9,26 @@ interface Product {
   category: number;
   imageUrl: string;
   description: string;
+  slug?: string;
 }
 
 function App() {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [productsData, setProductsData] = useState<Product[]>([]);
 
   useEffect(() => {
     const fetchItems = async () => {
       try {
         const response = await fetch(
-          'https://apiv2.davinciboardgame.com/menu/items'
+          "https://apiv2.davinciboardgame.com/menu/items"
         );
         if (!response.ok) {
-          throw new Error('Veri alınamadı');
+          throw new Error("Veri alınamadı");
         }
         const data: Product[] = await response.json();
         setProductsData(data);
       } catch (error) {
-        console.error('Hata oluştu:', error);
+        console.error("Hata oluştu:", error);
       }
     };
 
@@ -61,30 +63,32 @@ function App() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredProducts.map((product) => (
-            <div
+            <Link
+              to={`https://kutuoyunual.com/${product?.slug}`}
               key={product._id}
-              className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
             >
-              <div className="aspect-w-1 aspect-h-1">
-                <img
-                  src={product.imageUrl}
-                  alt={product.name}
-                  className="w-full h-64 object-cover"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src =
-                      'https://images.unsplash.com/photo-1594322436404-5a0526db4d13?q=80&w=1000&auto=format&fit=crop';
-                  }}
-                />
+              <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <div className="aspect-w-1 aspect-h-1">
+                  <img
+                    src={product.imageUrl}
+                    alt={product.name}
+                    className="w-full h-64 object-cover"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src =
+                        "https://images.unsplash.com/photo-1594322436404-5a0526db4d13?q=80&w=1000&auto=format&fit=crop";
+                    }}
+                  />
+                </div>
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                    {product.name}
+                  </h3>
+                  <p className="text-xl font-bold text-blue-600">
+                    {product.price.toFixed(2)} TL
+                  </p>
+                </div>
               </div>
-              <div className="p-4">
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                  {product.name}
-                </h3>
-                <p className="text-xl font-bold text-blue-600">
-                  {product.price.toFixed(2)} TL
-                </p>
-              </div>
-            </div>
+            </Link>
           ))}
         </div>
 
