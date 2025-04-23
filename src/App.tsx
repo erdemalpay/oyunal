@@ -36,7 +36,7 @@ function App() {
 
   // Filter products for categories 25 and 26, then by search term
   const filteredProducts = productsData
-    .filter((product) => [25, 26].includes(product.category))
+    .filter((product) => [25, 26, 27].includes(product.category))
     .filter((product) =>
       product.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
