@@ -19,7 +19,7 @@ function App() {
     const fetchItems = async () => {
       try {
         const response = await fetch(
-          "https://apiv2.davinciboardgame.com/menu/items"
+          "https://apiv2.davinciboardgame.com/menu/items/oyun-al"
         );
         if (!response.ok) {
           throw new Error("Veri alınamadı");
@@ -35,11 +35,9 @@ function App() {
   }, []);
 
   // Filter products for categories 25 and 26, then by search term
-  const filteredProducts = productsData
-    .filter((product) => [25, 26, 27].includes(product.category))
-    .filter((product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+  const filteredProducts = productsData.filter((product) =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
